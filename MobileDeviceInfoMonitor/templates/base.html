@@ -1,0 +1,25 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>Battery Test Server</title>
+	<link rel="stylesheet" href='{% static "bootstrap-3.3.4-dist/css/bootstrap.css" %}' />
+</head>
+
+<body ng-app="IOSDeviceInfoApp">
+
+	<p>base.html</>	
+	{% block battery %}{% endblock%}
+
+	<script type="text/javascript" src='{% static "lib/jquery-1.11.2.min.js" %}'></script>
+	<script type="text/javascript" src='{% static "bootstrap-3.3.4-dist/js/bootstrap.js" %}'></script>
+	<script type="text/javascript" src='{% static "lib/angular.js" %}'></script>
+
+
+	<script type="text/javascript" src='{% static "js/app.js" %}'></script>
+	<script type="text/javascript" src='{% static "js/battery.js" %}'></script>
+
+</body>
+</html>
