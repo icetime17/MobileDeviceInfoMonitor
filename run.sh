@@ -1,4 +1,4 @@
 #!/bin/bash
 
-python manage.py runserver 0.0.0.0:8017
+python manage.py runserver localhost:8017
 
