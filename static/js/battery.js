@@ -11,49 +11,101 @@ app.controller("battery", ["$scope", "$http", function($scope, $http){
 
 	console.log("battery");
 
-	$scope.testtxt = "battery";
+	$scope.gv = {
+		'batteryData'	: {},
+		'devices'		: [],
+		'chosedDevice'	: 'TA iPhone 5',
+	};
 
-	$scope.drawBatteryChart = function() {
+	$scope.getbatteryData = function() {
+		$http({
+				method: 'GET',
+				url: '/batteryLevel/level'
+			}).
+			success(function(data, status) {
+				$scope.gv.batteryData = data.data;
+				// for (var d in $scope.gv.batteryData) {
+				// 	$scope.gv.devices.push(d);
+				// }
+
+				var device = "TA iPhone 5";
+				var timeArray = [];
+				var batteryArray = [];
+				var batteries = $scope.gv.batteryData[device]['battery'];
+				for (var i=0; i<=batteries.length-1;i++) {
+					timeArray.push(batteries[i][0]);
+					batteryArray.push(batteries[i][1]);
+				};
+				$scope.drawLineEChart('batteryChart_5', timeArray, batteryArray);
+
+				var device = "TA iPhone 5s";
+				var timeArray = [];
+				var batteryArray = [];
+				var batteries = $scope.gv.batteryData[device]['battery'];
+				for (var i=0; i<=batteries.length-1;i++) {
+					timeArray.push(batteries[i][0]);
+					batteryArray.push(batteries[i][1]);
+				};
+				$scope.drawLineEChart('batteryChart_5s', timeArray, batteryArray);
+
+			}).
+			error(function(data, status) {
+				console.log(status);
+			});
+	}
+
+	$scope.drawLineEChart = function(chartId, xValue, yValue) {
 		require(
 		    [
 		        'echarts',
-		        'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+		        'echarts/chart/line',
 		    ],
 		    function (ec) {
-		        // 基于准备好的dom，初始化echarts图表
-		        var myChart = ec.init(document.getElementById('main')); 
-		        
-		        var option = {
+		        var myChart = ec.init(document.getElementById(chartId)); 
+		        myChart.setOption({
 		            tooltip: {
-		                show: true
+		                trigger: 'axis'
 		            },
 		            legend: {
-		                data:['销量']
+		                data:['Battery Level']
+		            },
+		            toolbox: {
+		            	show: true,
+		            	feature: {
+		            		mark: {show: true},
+		            		dataView: {show: true, readOnly: false},
+		            		magicType: {show: true, type: ['line']},
+		            		restore: {show: true},
+		            		saveAsImage: {show: true}
+		            	}
 		            },
 		            xAxis : [
 		                {
 		                    type : 'category',
-		                    data : ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+		                    data : xValue
 		                }
 		            ],
 		            yAxis : [
 		                {
-		                    type : 'value'
+		                    type : 'value',
+		                    splitArea : {show: true}
 		                }
 		            ],
 		            series : [
 		                {
-		                    "name":"销量",
-		                    "type":"bar",
-		                    "data":[5, 20, 40, 10, 10, 20]
+		                    name: 'Battery Level',
+		                    type: 'line',
+		                    data: yValue,
 		                }
 		            ]
-		        };
-
-		        // 为echarts对象加载数据 
-		        myChart.setOption(option); 
+		        });
 		    }
 		);
 	}
+
+
+	// executing while loading
+
+	$scope.getbatteryData();
 
 }]);

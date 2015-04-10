@@ -10,7 +10,6 @@
 
 <body ng-app="IOSDeviceInfoApp">
 
-	<p>base.html</>	
 	{% block battery %}{% endblock%}
 
 	<script type="text/javascript" src='{% static "lib/jquery-1.11.2.min.js" %}'></script>
@@ -18,8 +17,14 @@
 	<script type="text/javascript" src='{% static "lib/angular.js" %}'></script>
 
 
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+
+
 	<script type="text/javascript" src='{% static "js/app.js" %}'></script>
 	<script type="text/javascript" src='{% static "js/battery.js" %}'></script>
+
+
 
 </body>
 </html>
